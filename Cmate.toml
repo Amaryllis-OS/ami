@@ -27,7 +27,7 @@ flags = ["-Wall", "-Wextra", "-std=c99"]
 # Linker flags for linking phase
 # Include optimization flags, link-time optimization, and linker-specific options
 ldflags = [
-    "-O2",                                    # Optimization level 2
+    "-O3",                                    # Optimization level 2
     "-DDEBUG",                                # Define DEBUG constant
     #"-fsanitize=address",
     #"-g",

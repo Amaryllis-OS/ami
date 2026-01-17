@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "install.h"
 #include "archiver.h"
 #include "kutil.h"
 #include "path.h"
 #include "unpack.h"
 #include "errortype.h"
-
 
 
 int check_is_amp(const char* file_name) {
@@ -73,10 +73,3 @@ cleanup:
     free(source_tar);
     return E_INSTALL;
 }
-
-
-
-
-
-
-
