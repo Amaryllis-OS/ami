@@ -32,7 +32,7 @@ cmate
 
 ### 4. Build the Project
 
-After running `cmate`, build the project (replace with your actual build command, e.g., `make`):
+After running `cmate`, build the project 
 
 ```sh
 make
