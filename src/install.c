@@ -10,6 +10,11 @@
 #include "errortype.h"
 
 
+/**
+ * Checks if the given file name has the ".amp" extension.
+ * @param file_name The name of the file to check.
+ * @return 1 if the file is an amp file, 0 otherwise.
+ */
 int check_is_amp(const char* file_name) {
     char** splited = split_string(file_name, '.');
     int len = 0;
@@ -26,7 +31,13 @@ int check_is_amp(const char* file_name) {
 }
 
 
-
+/**
+ * Installs an amp package from the given source path with the specified options.
+ * Extracts the amp archive, unpacks its contents, and installs files to the target location.
+ * @param src The path to the amp package file.
+ * @param options The installation options (verbosity, prefix, installed file path).
+ * @return 0 on success, non-zero error code on failure.
+ */
 int install_amp(char *src, InstallOptions options) {
     printf("installing: %s\n", src);
     if (!check_is_amp(src)) {

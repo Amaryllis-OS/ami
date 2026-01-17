@@ -8,6 +8,13 @@ typedef struct {
     char* installed_file;
 } InstallOptions;
 
+/**
+ * Installs an amp package from the given source path with the specified options.
+ * Extracts the amp archive, unpacks its contents, and installs files to the target location.
+ * @param src The path to the amp package file.
+ * @param options The installation options (verbosity, prefix, installed file path).
+ * @return 0 on success, non-zero error code on failure.
+ */
 int install_amp(char* src, InstallOptions options);
 
 #endif /* _INSTALL_H */

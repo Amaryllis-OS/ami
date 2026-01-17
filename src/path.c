@@ -6,6 +6,11 @@
 #include "kutil.h"
 
 
+/**
+ * Checks if the specified file or directory exists.
+ * @param path The path to check for existence.
+ * @return 1 if the file or directory exists, 0 otherwise.
+ */
 int check_exists(const char* path) {
     FILE* file = fopen(path, "r");
     if (file) {
@@ -15,8 +20,10 @@ int check_exists(const char* path) {
     return 0; 
 }
 
-/** Returns the path to the distribution directory, creating it if necessary.
-** please free the returned string after use.
+/**
+ * Returns the path to the distribution directory, creating it if necessary.
+ * The returned string should be freed by the caller after use.
+ * @return The path to the distribution directory, or NULL on failure.
  */
 char* dist_path() {
     if (!check_exists(BASE_PATH)) {

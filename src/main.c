@@ -4,6 +4,12 @@
 #include "argtable3.h"
 #include "install.h"
 
+/**
+ * The main entry point of the program. Parses command-line arguments and executes the install command if specified.
+ * @param argc The number of command-line arguments.
+ * @param argv The array of command-line argument strings.
+ * @return 0 on success, non-zero on failure.
+ */
 int main(int argc, char* argv[]) 
 {
 	struct arg_str* arg_install = arg_str1(NULL, "install", "AMP_FILE", "install specified .amp file");
