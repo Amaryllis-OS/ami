@@ -53,3 +53,11 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# clangd
+compile_commands.json
+.cache
+
+# cmate
+/.cmate
+/bin
