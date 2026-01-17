@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
 
+#include "archiver.h"
 #include "argtable3.h"
-#include "unpack.h"
+#include "install.h"
 
 int main(int argc, char* argv[]) 
 {
@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	struct arg_end* end = arg_end(10);
 	void* argtable[] = { arg_install, verbose, help, end };
 
-	Output op;
+	InstallOptions install_options = {NORMAL, NULL};
 	
 	
 	int nerrors = arg_parse(argc, argv, argtable);
@@ -33,7 +33,16 @@ int main(int argc, char* argv[])
 
 
 	if (verbose->count > 0) {
+		install_options.verbose = VERBOSE;
+	}
 
+	if (arg_install->count > 0) {
+		const char* amp_file = arg_install->sval[0];
+		int res = install_amp((char*)amp_file, install_options);
+		if (res != 0) {
+			fprintf(stderr, "Failed to install package: %s\n", amp_file);
+			goto cleanup;
+		}
 	}
 
 cleanup:

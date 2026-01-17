@@ -20,7 +20,6 @@ RUN git clone https://github.com/sirasaki-konoha/cmate.git && \
 # 最終イメージ
 FROM alpine:latest
 
-# 必要なパッケージのインストール
 RUN apk add --no-cache \
     build-base \
     cmake \
@@ -39,7 +38,11 @@ RUN apk add --no-cache \
     zstd-dev \
     zstd-static \
     openssl-libs-static \
-    openssl-dev
+    openssl-dev \
+    acl-dev \
+    acl-static \
+    attr-dev \
+    attr-static
 
 COPY --from=builder /build/cmate/target/release/cmate /usr/local/bin/cmate
 

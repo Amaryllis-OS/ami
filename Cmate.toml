@@ -29,6 +29,10 @@ flags = ["-Wall", "-Wextra", "-std=c99"]
 ldflags = [
     "-O2",                                    # Optimization level 2
     "-DDEBUG",                                # Define DEBUG constant
+    #"-fsanitize=address",
+    #"-g",
+    "-s",
+    "-lm",
     "-static"
 ]
 
@@ -67,7 +71,7 @@ include = ["include/"]
 # Example: ["m"] => links with -lm (math library)
 #          ["dl"] => links with -ldl (dynamic linking library)
 #          ["pthread"] => links with -lpthread (POSIX threads)
-libs = ["archive"]
+libs = ["m", "archive", "acl", "attr", "z", "bz2", "lzma", "lz4", "zstd", "crypto", "pthread"]
 
 # ======================================================
 # Path Resolution:

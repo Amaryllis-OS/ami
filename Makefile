@@ -10,8 +10,8 @@
 # ==========================================
 CC_ami := /usr/bin/cc
 CFLAGS_ami := -Wall -Wextra -std=c99
-LDLIBS_ami := -larchive
-LDFLAGS_ami := -O2 -DDEBUG -static
+LDLIBS_ami := -lm -larchive -lacl -lattr -lz -lbz2 -llzma -llz4 -lzstd -lcrypto -lpthread
+LDFLAGS_ami := -O2 -DDEBUG -s -lm -static
 SRCDIRS_ami := src/
 INCLUDE_DIRS_ami := include/
 EXTRA_SOURCES_ami := 

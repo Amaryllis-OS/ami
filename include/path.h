@@ -1,8 +1,7 @@
 #ifndef _INTERNAL_PATH_H
 #define _INTERNAL_PATH_H
 
-#define BASE_PATH "/"
-
+#define BASE_PATH "/var/lib/ami"
 
 char* dist_path();
 
