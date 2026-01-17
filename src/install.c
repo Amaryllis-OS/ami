@@ -35,7 +35,9 @@ int install_amp(char *src, InstallOptions options) {
     }
 
     char* dist = dist_path();
-    Archiver ar = new_archiver(src, dist, options.verbose, AMP);
+
+    // extract amp package
+    Archiver ar = new_archiver(src, dist, NULL, options.verbose, AMP);
 
     if (unpack_archive(ar)) {
         fprintf(stderr, "Failed to unpack amp package!\n");
@@ -52,7 +54,8 @@ int install_amp(char *src, InstallOptions options) {
     if (options.prefix == NULL) {
         options.prefix = "/";
     }
-    Archiver ar_tar = new_archiver(source_tar, options.prefix, options.verbose, TAR);
+    // extract data.tar
+    Archiver ar_tar = new_archiver(source_tar, options.prefix, options.installed_file, options.verbose, TAR);
 
     if (unpack_archive(ar_tar)) {
         fprintf(stderr, "Failed to unpack data.tar!\n");

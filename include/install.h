@@ -5,6 +5,7 @@
 typedef struct {
     Output verbose;
     char* prefix;
+    char* installed_file;
 } InstallOptions;
 
 int install_amp(char* src, InstallOptions options);

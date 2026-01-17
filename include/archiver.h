@@ -15,13 +15,14 @@ typedef enum {
 typedef struct {
     char* src;
     char* dist;
+    char* log_file;
     Output verbose;
     ArchiveType ar_t;
 } Archiver;
 
 
 
-Archiver new_archiver(const char* src, const char* dist, Output verbose, ArchiveType ar_t);
+Archiver new_archiver(const char* src, const char* dist, const char* log_file, Output verbose, ArchiveType ar_t);
 
 void free_archiver(Archiver* ar);
 

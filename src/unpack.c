@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "unpack.h"
+#include "writer.h"
 #include "archiver.h"
 #include "kutil.h"
 
@@ -12,9 +13,15 @@ int unpack_archive(Archiver ar) {
     struct archive* reader;
     struct archive* writer;
     struct archive_entry* entry;
+    Writer wt;
     int r;
 
     reader = archive_read_new();
+    if (ar.log_file == NULL) {
+        wt = w_open("/dev/null");
+    } else {
+        wt = w_create(ar.log_file);
+    }
 
     if (ar.ar_t == AMP) {
         archive_read_support_filter_zstd(reader);
@@ -35,6 +42,8 @@ int unpack_archive(Archiver ar) {
 
         archive_write_close(writer);
         archive_write_free(writer);
+
+        w_free_writer(&wt);
         return 1;
     }
 
@@ -44,9 +53,13 @@ int unpack_archive(Archiver ar) {
         }
 
         // Set the output directory
-        const char* entry_pathname = archive_entry_pathname(entry);
+        const char* entry_pathname = archive_entry_pathname_utf8(entry);
         char *full_path = format_string("%s/%s", ar.dist, entry_pathname);
         archive_entry_set_pathname(entry, full_path);
+
+        char* log = format_string("%s\n", full_path);
+        w_add_string(&wt, (const char*)log);
+        free(log);
 
         r = archive_write_header(writer, entry);
         if (r != ARCHIVE_OK) {
@@ -66,12 +79,14 @@ int unpack_archive(Archiver ar) {
     }
 
 
+    w_flush_write(&wt);
 
     archive_read_close(reader);
     archive_read_free(reader);
 
     archive_write_close(writer);
     archive_write_free(writer);
+    w_free_writer(&wt);
 
     return 0;
 }
