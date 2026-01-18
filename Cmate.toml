@@ -24,7 +24,7 @@ ldflags = [
     "-fno-unwind-tables",                    # Disable unwind tables
     "-fno-exceptions",                       # Disable exception handling
     "-DNDEBUG",                              # Define NDEBUG for release build
-    "-s"                                    # Strip debug symbols
+    "-s",                                    # Strip debug symbols
     "-static"                                # Static linking
 ]
 

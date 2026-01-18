@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 
 #include "archiver.h"
@@ -13,11 +14,12 @@
 int main(int argc, char* argv[]) 
 {
 	struct arg_str* arg_install = arg_str1(NULL, "install", "AMP_FILE", "install specified .amp file");
+	struct arg_str* arg_prefix = arg_str1(NULL, "prefix", "PREFIX", "install to specified prefix");
 	struct arg_str* arg_installed = arg_str1(NULL, "installed-file", "INSTALLED_LOCATION", "outputs extracted files list to specified location");
 	struct arg_lit* verbose = arg_lit0("v", "verbose", "Display verbose output");
 	struct arg_lit* help = arg_lit0("h", "help", "show help");
 	struct arg_end* end = arg_end(10);
-	void* argtable[] = { arg_install, verbose, arg_installed, help, end };
+	void* argtable[] = { arg_install, arg_prefix, verbose, arg_installed, help, end };
 
 	InstallOptions install_options = {NORMAL, NULL, NULL};
 	
@@ -45,6 +47,10 @@ int main(int argc, char* argv[])
 
 	if (arg_installed->count > 0) {
 		install_options.installed_file = (char*)arg_installed->sval[0];
+	}
+
+	if (arg_prefix->count > 0) {
+		install_options.prefix = (char*)arg_prefix->sval[0];
 	}
 
 	if (arg_install->count > 0) {

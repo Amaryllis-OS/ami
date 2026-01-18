@@ -1,6 +1,12 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "install.h"
 #include "archiver.h"
@@ -29,6 +35,40 @@ int check_is_amp(const char* file_name) {
     free_str_array(splited);
     return 1;
 }
+
+int remove_recursive(const char *path) {
+    DIR *dir = opendir(path);
+    struct dirent *entry;
+    char fullpath[4096];
+    struct stat st;
+
+    if (!dir) {
+        return unlink(path);
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcmp(entry->d_name, ".") == 0 ||
+            strcmp(entry->d_name, "..") == 0)
+            continue;
+
+        snprintf(fullpath, sizeof(fullpath),
+                 "%s/%s", path, entry->d_name);
+
+        if (lstat(fullpath, &st) == -1)
+            continue;
+
+        if (S_ISDIR(st.st_mode)) {
+            remove_recursive(fullpath);
+        } else {
+            unlink(fullpath);
+        }
+    }
+
+    closedir(dir);
+    return rmdir(path);
+}
+
+
 
 
 /**
@@ -70,6 +110,11 @@ int install_amp(char *src, InstallOptions options) {
 
     if (unpack_archive(ar_tar)) {
         fprintf(stderr, "Failed to unpack data.tar!\n");
+        goto cleanup;
+    }
+
+    if (remove_recursive(dist)) {
+        fprintf(stderr, "Failed to remove temporary files!\n");
         goto cleanup;
     }
 

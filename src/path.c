@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "path.h"
 #include "kutil.h"
@@ -26,14 +28,14 @@ int check_exists(const char* path) {
  * @return The path to the distribution directory, or NULL on failure.
  */
 char* dist_path() {
-    if (!check_exists(BASE_PATH)) {
-        if (mkdir(BASE_PATH, S_IRWXU)) {
+    if (!check_exists("/tmp/ami_dist")) {
+        if (mkdir("/tmp/ami_dist", S_IRWXU)) {
             perror("Failed to create base path directory");
             return NULL;
         }
     }
 
-    char* pkginstall_path = format_string("%s/pkginstall", BASE_PATH);
+    char* pkginstall_path = format_string("%s/pkginstall", "/tmp/ami_dist");
     if (!check_exists(pkginstall_path)) {
         if (mkdir(pkginstall_path, S_IRWXU)) {
             perror("Failed to create pkginstall directory");
@@ -41,7 +43,6 @@ char* dist_path() {
             return NULL;
         }
     }
-
     return pkginstall_path;
 }
 
