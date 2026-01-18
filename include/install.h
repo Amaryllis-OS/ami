@@ -6,6 +6,7 @@ typedef struct {
     Output verbose;
     char* prefix;
     char* installed_file;
+    int post_script;
 } InstallOptions;
 
 /**
