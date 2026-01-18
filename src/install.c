@@ -59,7 +59,7 @@ int install_amp(char *src, InstallOptions options) {
     }
     free_archiver(&ar);
 
-    char* source_tar = format_string("%s/package/data.tar", dist);
+    char* source_tar = format_string("%s/data.tar", dist);
 
 
     if (options.prefix == NULL) {
