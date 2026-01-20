@@ -114,23 +114,25 @@ int install_amp(char *src, InstallOptions options) {
         goto cleanup;
     }
 
-    if (remove_recursive(dist)) {
-        fprintf(stderr, "Failed to remove temporary files!\n");
-        goto cleanup;
-    }
 
     if (options.post_script) {
         char* post_script_path = format_string("%s/post_install.sh", dist);
         if (access(post_script_path, X_OK) == 0) {
             printf("\x1b[1A\x1b[2KExecuting post-install scriptlet: %s\n", post_script_path);
 
-            if (execute_post_install(post_script_path) != 0) {
+            if (execute_post_install(post_script_path, options.prefix) != 0) {
                 fprintf(stderr, "Post-install script execution failed!\n");
                 free(post_script_path);
                 goto cleanup;
             }
         }
         free(post_script_path);
+    }
+
+
+    if (remove_recursive(dist)) {
+        fprintf(stderr, "Failed to remove temporary files!\n");
+        goto cleanup;
     }
 
     free_archiver(&ar_tar);
